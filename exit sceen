@@ -1,0 +1,6 @@
+draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
+draw.rectangle((20, 20, 108, 51), outline=0, fill=255)
+draw.rectangle((22, 22, 106, 49), outline=255, fill=0)
+draw.text((52,30), "Exit?", fill=255)
+oled.image(image)
+oled.show()
