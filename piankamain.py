@@ -12,8 +12,7 @@ import os
 
 def menu():
     global files,ffile,pliki,i2c,oled,draw,image
-    image = Image.new("1", (128, 64))
-    draw = ImageDraw.Draw(image)
+    
     
     oled.fill(0)
     draw.rectangle((0 ,0, 128, 64), outline=0, fill=255)
