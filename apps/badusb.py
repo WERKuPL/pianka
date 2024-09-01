@@ -1,5 +1,4 @@
-import sys,os,time,glob
-
+import subprocess,time,glob
 from gpiozero import Button
 from PIL import Image, ImageDraw, ImageFont
 from luma.core.interface.serial import spi
@@ -8,14 +7,15 @@ from luma.oled.device import sh1106
 
 white = 255
 black = 0
+
 def menuinit():
     oled.clear()
     draw.rectangle((0 ,0, 128, 64), outline=255, fill=white)
     draw.rectangle((1, 1, 126, 62), outline=0, fill=black)
 def menu():
     global files,ffile,pliki,oled,draw
-
     draw.rectangle((1, 1, 126, 62), outline=0, fill=black)
+    draw.text((85,5), "badusb",fill=white)
     if y_pointer == 0: 
         draw.text((9,5), pliki[y_pointer], fill=white, font=font)
         draw.text((9,16), pliki[y_pointer+1], fill=white, font=font)
@@ -40,14 +40,9 @@ def menu():
         draw.text((9,27), pliki[y_pointer+1], fill=white, font=font)
         draw.text((9,38), pliki[y_pointer+2], fill=white, font=font)
         pointer(1)
-    #ytext = 5
-    #for i in range(len(pliki)): 
-    #    draw.text((10,ytext), pliki[i], fill=white, size=0,font=font)
-    #    ytext = ytext+11
-    #oled.display(image1)
 
 def pointer(pointer_at):
-    global files,ffile,pliki,oled,draw
+    global pliki,oled,draw,image1
     if pointer_at == 0 and len(pliki) >=  1:
         draw.rectangle((5 ,9 , 8, 46), outline=0, fill=black)
         draw.rectangle((5 ,9 , 8, 13), outline=0, fill=white)
@@ -68,6 +63,7 @@ def pointer(pointer_at):
         draw.rectangle((5 ,42 , 8, 46), outline=0, fill=white)
         print(str(pointer_at) + " at")
         oled.display(image1)
+
 def full():
     global files,ffile,pliki,oled,draw,y_pointer,is_exit,downbutton,upbutton,okbutton,offbutton,backbutton, leftbutton,rightbutton,image1
     while True:
@@ -105,11 +101,17 @@ def full():
             
     
         elif backbutton.is_pressed:
-            print("exit")                    
-            draw.rectangle((0 ,0, 128, 64), outline=0, fill=black)
+            downbutton.close()
+            upbutton.close()
+            leftbutton.close()
+            rightbutton.close()
+            okbutton.close()                   
+            backbutton.close()
+            offbutton.close() 
+            draw.rectangle((0 ,0, 128, 64), outline=255, fill=black)
             time.sleep(0.3)
-            is_exit = True
-            eexit()
+            break
+            
         elif offbutton.is_pressed:
             draw.rectangle((0,0,128,64), fill=black)
             oled.display(image1)
@@ -120,101 +122,37 @@ def full():
            
             time.sleep(1)
         elif okbutton.is_pressed:
+            draw.rectangle((0, 0, 128, 64), outline=0, fill=black)
+            draw.text((9,5), "script running", fill=white, font=font)
+            oled.display(image1)
+            #os.system(f"P4wnP1_cli hid run {pliki[y_pointer]}")
+            script = subprocess.Popen(['P4wnP1_cli', 'hid', 'run', pliki[y_pointer]])
             
+            running = True
             
-            downbutton.close()
-            upbutton.close()
-            leftbutton.close()
-            rightbutton.close()
-            okbutton.close()                   
-            backbutton.close()
-            offbutton.close()
-            print("open")
-            #os.system("~/pianka/bin/python ~/pianka/apps/"+pliki[y_pointer])
-            #with open("apps/"+pliki[y_pointer]) as file:
-            #    exec(file.read())
-            #    time.sleep(1)
+            while running:
+                ifrunning = script.poll()
+                if ifrunning != None:
+                    running = False
+                    script.kill()
+                    break
+                else:
+                    if backbutton.is_pressed:
+                        running = False
+                        script.kill()
+                        time.sleep(0.3)
+ 
 
-
-
-
-
-            if pliki[y_pointer] == "snake.py":
-                import apps.snake
-                apps.snake.main()
-            elif pliki[y_pointer] == "counter.py":
-                import apps.counter
-                apps.counter.main()
-            elif pliki[y_pointer] == "box.py":
-                import apps.box
-                apps.box.main()
-            elif pliki[y_pointer] == "wifi.py":
-                import apps.wifi
-                apps.wifi.main()
-            elif pliki[y_pointer] == "badusb.py":
-                import apps.badusb
-                apps.badusb.main()
-
-    
-
-
-
-
-
-
-
-                
-            #os.system("~/pianka/bin/python ~/pianka/piankamain.py")
-            print("exit from program")
-            oled = sh1106(spi(device=0, port=0, ),rotate=2)
-            oled.clear()
-            image1 = Image.new('1', (oled.width, oled.height))
-            draw = ImageDraw.Draw(image1)
-            is_exit = False
-            upbutton = Button(6)
-            leftbutton = Button(5)
-            rightbutton = Button(26)
-            downbutton = Button(19)
-            
-            okbutton = Button(21)                   
-            backbutton = Button(16)
-            offbutton = Button(13)
             menuinit()
             menu()
-            
-                
-             
-        while is_exit:
-            if offbutton.is_pressed:
-                    draw.rectangle((0 ,0, 128, 64), outline=255, fill=black)
-                    oled.display(image1)
-                    
-                    sys.exit(0)
-            elif backbutton.is_pressed:
-                    print("back to menu")
-                    menu()
-                    pointer(y_pointer)
-                    is_exit = False
-                    oled.display(image1)
-                    time.sleep(0.3)
-            elif okbutton.is_pressed:
-                draw.rectangle((0 ,0, 128, 64), outline=255, fill=black)
-                oled.display(image1)
-                os.system('sudo shutdown now') 
-def eexit():
+
+def main():
+    global y_pointer,font,draw,pliki,image1,oled,downbutton,upbutton,okbutton,offbutton,backbutton, leftbutton,rightbutton,image1
     
-    draw.rectangle((0,0,128,64), fill=black)
-    draw.rectangle((20, 20, 108, 51), outline=255, fill=white)
-    draw.rectangle((22, 22, 106, 49), outline=255, fill=black)
-    draw.text((38,30), "Shutdown?", fill=white, font=font)
-    oled.display(image1)
-     
-# STARTING PROGRAM
-if __name__ == "__main__":
     font = ImageFont.truetype("Arial.ttf", 10)
     pliki= []
-    for files in glob.glob("./apps/*.py"):
-        ffile = files.replace("./apps/","")
+    for files in glob.glob("/usr/local/P4wnP1/HIDScripts/*.js"):
+        ffile = files.replace("/usr/local/P4wnP1/HIDScripts/","")
         pliki.append(ffile)
     downbutton = Button(19)
     upbutton = Button(6)
@@ -226,10 +164,10 @@ if __name__ == "__main__":
     oled = sh1106(spi(device=0, port=0, ),rotate=2)
     image1 = Image.new('1', (oled.width, oled.height))
     draw = ImageDraw.Draw(image1)
-    is_exit = False
     y_pointer = 0
     menuinit()
     menu()
-    pointer(y_pointer)
     full()
-    
+
+if __name__ == "__main__":
+    main()

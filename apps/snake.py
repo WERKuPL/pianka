@@ -1,6 +1,4 @@
-import sys
-sys.path.append('/home/werku/pianka')
-import piankamain #import *
+
 from gpiozero import Button
 from PIL import Image, ImageDraw, ImageFont
 from time import sleep

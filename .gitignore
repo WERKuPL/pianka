@@ -1,4 +1,4 @@
-/bin
-/lib
-/lib64
-__pycache__
+bin/*
+lib/*
+lib64/*
+__pycache__/*
