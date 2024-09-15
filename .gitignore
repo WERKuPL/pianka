@@ -2,3 +2,9 @@ bin/*
 lib/*
 lib64/*
 __pycache__/*
+include/
+notebook.py
+pyvenv.cfg
+counter.txt
+apps/music/*
+playlist.txt

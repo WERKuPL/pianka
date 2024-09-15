@@ -130,32 +130,11 @@ def full():
             backbutton.close()
             offbutton.close()
             print("open")
-            #os.system("~/pianka/bin/python ~/pianka/apps/"+pliki[y_pointer])
-            #with open("apps/"+pliki[y_pointer]) as file:
-            #    exec(file.read())
-            #    time.sleep(1)
 
-
-
-
-
-            if pliki[y_pointer] == "snake.py":
-                import apps.snake
-                apps.snake.main()
-            elif pliki[y_pointer] == "counter.py":
-                import apps.counter
-                apps.counter.main()
-            elif pliki[y_pointer] == "box.py":
-                import apps.box
-                apps.box.main()
-            elif pliki[y_pointer] == "wifi.py":
-                import apps.wifi
-                apps.wifi.main()
-            elif pliki[y_pointer] == "badusb.py":
-                import apps.badusb
-                apps.badusb.main()
-
-    
+            
+            filename = pliki[y_pointer].replace(".py","")
+            exec(f"import apps.{filename}")
+            eval(f"apps.{filename}.main()")
 
 
 
@@ -230,6 +209,5 @@ if __name__ == "__main__":
     y_pointer = 0
     menuinit()
     menu()
-    pointer(y_pointer)
     full()
     

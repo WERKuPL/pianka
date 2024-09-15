@@ -1,7 +1,8 @@
-from scapy.all import *
+from scapy.all import Dot11Beacon,Dot11,Dot11Elt,sniff
+
 from threading import Thread
 import subprocess
-import pandas
+from pandas import DataFrame
 import time
 import os
 from gpiozero import Button
@@ -10,7 +11,7 @@ from luma.core.interface.serial import spi
 from luma.oled.device import sh1106
 
 # initialize the networks dataframe that will contain all access points nearby
-networks = pandas.DataFrame(columns=["BSSID", "SSID", "dBm_Signal", "Channel", "Crypto"])
+networks = DataFrame(columns=["BSSID", "SSID", "dBm_Signal", "Channel", "Crypto"])
 # set the index BSSID (MAC address of the AP)
 networks.set_index("BSSID", inplace=True)
 
@@ -19,7 +20,7 @@ def callback(packet):
     global ssid, bssid,finalssid,finalbssid,channel_changer,finalall
     if backbutton.is_pressed:
         channel_changer.daemon = False
-        os.system("sudo ifconfig wlan1 down")
+        os.system(f"sudo ifconfig {interface} down")
         
     else:
         try:
