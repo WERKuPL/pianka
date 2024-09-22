@@ -2,9 +2,11 @@ bin/*
 lib/*
 lib64/*
 __pycache__/*
-include/
+include/*
 notebook.py
 pyvenv.cfg
 counter.txt
-apps/music/*
+assets/music/*
 playlist.txt
+pyvenv.cfg
+assets/apps/__pycache__
