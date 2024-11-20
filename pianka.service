@@ -1,0 +1,14 @@
+[Unit]
+Description=pianka service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=username
+ExecStart=/home/username/pianka/bin/python3 /home/username/pianka/piankamain.py
+
+[Install]
+WantedBy=multi-user.target

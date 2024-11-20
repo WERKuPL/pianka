@@ -11,8 +11,7 @@ Raspberry pi zero W <br />
 
 ## Instalation 
 `git clone https://github.com/WERKuPL/pianka.git` <br />
-`cd pianka` <br />
-`sh install.sh` <br />
+`bash ./pianka/install.sh` <br />
 <br />
 
 ## ToDo

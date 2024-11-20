@@ -105,10 +105,7 @@ def full():
             
     
         elif backbutton.is_pressed:
-            print("exit")                    
-            draw.rectangle((0 ,0, 128, 64), outline=0, fill=black)
-            time.sleep(0.3)
-            is_exit = True
+              
             downbutton.close()
             upbutton.close()
             leftbutton.close()

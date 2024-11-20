@@ -10,3 +10,5 @@ assets/music/*
 playlist.txt
 pyvenv.cfg
 assets/apps/__pycache__
+.venv/*
+.venv
