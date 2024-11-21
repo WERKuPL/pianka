@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=username
-ExecStart=/home/username/pianka/bin/python3 /home/username/pianka/piankamain.py
+ExecStart=/home/username/pianka/startup.sh 
 
 [Install]
 WantedBy=multi-user.target

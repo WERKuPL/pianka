@@ -1,18 +1,21 @@
 #!/usr/bin/bash
 
 Yellow='\033[0;33m'       # Yellow
-echo $Yellow"Instaling pianka version 1.0 alfa"
+echo $Yellow"Instaling pianka version 1.01 alfa"
 
 
 
 echo -e $Green"Instaling needed packages"
-sudo apt install zlib1g-dev libjpeg-dev libpng-dev python3.11 python3-venv python3-pip python3.11-dev
+sudo apt install zlib1g-dev libjpeg-dev libpng-dev python3.11 python3-venv python3-pip python3.11-dev swig python3-pil  libfreetype6-dev liblcms2-dev libopenjp2-7 libtiff5 -y
 echo -e $Green"Creating python virtual environments"
 python3 -m venv /home/${USER}/pianka
 echo -e $Green"Instaling needed python packages"
 /home/${USER}/pianka/bin/pip3 install --upgrade pip gpiozero luma.oled scapy pandas 
+/home/${USER}/pianka/bin/pip uninstall rpi-gpio
+/home/${USER}/pianka/bin/pip install rpi-lgpio
 echo -e $Green"Setting systemd service"
 sed -i 's/username/${USER}/g' /home/${USER}/pianka/pianka.service
+sed -i 's/username/${USER}/g' /home/${USER}/pianka/startup.sh
 sudo systemctl enable /home/${USER}/pianka/pianka.service
 sudo systemctl start pianka.service
 echo -e $Green"Done"
