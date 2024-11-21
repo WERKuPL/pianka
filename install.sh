@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-
+Green='\033[0;32m'
 Yellow='\033[0;33m'       # Yellow
 echo $Yellow"Instaling pianka version 1.01 alfa"
 
