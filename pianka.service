@@ -7,8 +7,8 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=username
-ExecStart=/home/username/pianka/startup.sh 
+User=root
+ExecStart=bash /home/werku/pianka/startup.sh 
 
 [Install]
 WantedBy=multi-user.target

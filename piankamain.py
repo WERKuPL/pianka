@@ -5,13 +5,6 @@ from luma.oled.device import sh1106
 from gpiozero import Button
 from os import system
 from time import sleep
-RemoteGpio = True
-RemoteGpioIp = "192.168.0.34"
-if RemoteGpio == True:
-    from gpiozero.pins.pigpio import PiGPIOFactory
-    import tkinter
-    from PIL import ImageTk
-    factory = PiGPIOFactory(host=RemoteGpioIp)
 
 def drawapp(posision,app):
     if  posision == "up":
@@ -250,12 +243,7 @@ def full():
                 elif offbutton.is_pressed:
                     quit()
 def display(picture):
-    if RemoteGpio == False:
-        oled.display(picture)
-    elif RemoteGpio == True:
-        img=picture.resize((450, 350))
-        root.update()
-        print(emulator)
+    oled.display(picture)
 if __name__ == "__main__":
     image1 = Image.new('1', (128, 64))
     draw = ImageDraw.Draw(image1)
@@ -273,33 +261,15 @@ if __name__ == "__main__":
     boxicon = Image.open("assets/icons/box.png").convert('1')
     usbicon = Image.open("assets/icons/usb.png").convert('1')
     settingsicon = Image.open("assets/icons/settings.png").convert('1')
-    if RemoteGpio == False:
-        downbutton = Button(19)
-        upbutton = Button(6)
-        leftbutton = Button(5)
-        rightbutton = Button(26)
-        okbutton = Button(21)                   
-        backbutton = Button(16)
-        offbutton = Button(13)
-        oled = sh1106(spi(device=0, port=0, ),rotate=2,)
+    downbutton = Button(19)
+    upbutton = Button(6)
+    leftbutton = Button(5)
+    rightbutton = Button(26)
+    okbutton = Button(21)                   
+    backbutton = Button(16)
+    offbutton = Button(13)
+    oled = sh1106(spi(device=0, port=0, ),rotate=2,)
         
-    elif RemoteGpio == True:
-        img=image1.resize((450, 350))
-        draw = ImageDraw.Draw(img)
-        draw.bitmap((0,0),settingsicon)
-        root = tkinter.Tk()
-        emulator = ImageTk.PhotoImage(image1)
-        label1 = tkinter.Label(master=root,image=emulator)
-        label1.image = emulator
-        label1.place(x=0, y=0)
-        downbutton = Button(19, pin_factory=factory)
-        upbutton = Button(6, pin_factory=factory)
-        leftbutton = Button(5, pin_factory=factory)
-        rightbutton = Button(26, pin_factory=factory)
-        okbutton = Button(21, pin_factory=factory)                   
-        backbutton = Button(16, pin_factory=factory)
-        offbutton = Button(13, pin_factory=factory)
-        print("afterloop")
     
     apps = [
         "Snake",

@@ -10,13 +10,13 @@ sudo apt install zlib1g-dev libjpeg-dev libpng-dev python3.11 python3-venv pytho
 echo -e $Green"Creating python virtual environments"
 python3 -m venv /home/${USER}/pianka
 echo -e $Green"Instaling needed python packages"
-/home/${USER}/pianka/bin/pip3 install --upgrade pip gpiozero luma.oled scapy pandas rpi-lgpio
+/home/${USER}/pianka/bin/pip3 install --upgrade pip gpiozero luma.oled scapy pandas rpi-lgpio pyyaml
 echo -e $Green"Setting systemd service"
 sed -i 's/username/${USER}/g' /home/${USER}/pianka/pianka.service
 sed -i 's/username/${USER}/g' /home/${USER}/pianka/startup.sh
 sudo systemctl enable /home/${USER}/pianka/pianka.service
 sudo systemctl start pianka.service
-echo "dtparam=spi=on" | sudo tee -a /boot/firmware/config.txt
+#echo "dtparam=spi=on" | sudo tee -a /boot/firmware/config.txt
 echo -e $Green"Done"
 echo ""
 echo -e $Green"You can stop my by running the command"
