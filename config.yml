@@ -33,6 +33,12 @@ fonts:
   - name: fontsmall
     path: assets/fonts/PixelOperator.ttf
     size: 8
+  - name: fontmidle
+    path: assets/fonts/PixelOperator.ttf
+    size: 13
+  - name: font14
+    path: assets/fonts/PixelOperator.ttf
+    size: 14
 bitmaps:
   - name: scrollicon
     path: assets/icons/scroll.png
@@ -42,6 +48,9 @@ bitmaps:
 
   - name: outlineicon
     path: assets/icons/outline.png
+
+  - name: TextOutlineicon
+    path: assets/icons/TextOutline.png
 
   - name: mp3icon
     path: assets/icons/mp3.png

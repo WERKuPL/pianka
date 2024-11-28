@@ -23,13 +23,13 @@ def main():
     #oled.ShowImage(oled.getbuffer(image1))
     while True:
         if okbutton.is_pressed:
-            okbutton.wait_for_release()
             x = x+1
             draw.rectangle((0, 0, 128, 64), outline=0, fill=0)
             draw.text((10,25), str(x), fill=255)
             oled.display(image1)
             
-            sleep(0.08)
+            sleep(0.009)
+            okbutton.wait_for_release()
         
         elif midlebutton.is_pressed and rpi4 == False:
             okbutton.wait_for_release()
