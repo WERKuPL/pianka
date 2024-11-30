@@ -2,7 +2,7 @@ from api import Pianka
 from os import system
 from time import sleep
 
-def exit():
+def drawExit():
     
     root.draw.rectangle((0,0,128,64), fill=0)
     root.draw.rectangle((20, 20, 108, 51), outline=255, fill=255)
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         selected = root.MainMenu(apps)
         if selected == None:
             exitVar = True
-            exit()
+            drawExit()
             print("exit")
             root.backbutton.wait_for_release()
             while exitVar:
@@ -52,6 +52,7 @@ if __name__ == "__main__":
                 elif root.offbutton.is_pressed:
                     root.draw.rectangle((0,0,128,64), fill=0)
                     system("sudo systemctl stop pianka")
+                    quit()
             root.backbutton.wait_for_release()  
         else:   
             for i in appslibrary:
